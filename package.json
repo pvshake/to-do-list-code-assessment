@@ -1,0 +1,49 @@
+{
+  "name": "to-do-list-code-assessment",
+  "description": "A simple to-do list application for code assessment",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "author": {
+    "name": "Pedro Vitor Silveira Fajardo",
+    "email": "pedrovitorsf.contato@gmail.com",
+    "url": "https://github.com/pvshake"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "lint": "eslint src --max-warnings=0",
+    "typecheck": "tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "react-router": "7.1.1"
+  },
+  "devDependencies": {
+    "@types/react": "19.0.0",
+    "@types/react-dom": "19.0.0",
+    "@vitejs/plugin-react": "4.3.4",
+    "@vitest/browser": "2.1.8",
+    "@vitest/ui": "^1.6.0",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-tailwindcss": "^3.18.0",
+    "jsdom": "26.0.0",
+    "playwright": "1.49.1",
+    "postcss": "^8.5.1",
+    "prettier": "3.1.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.18.2",
+    "vite": "^6.1.0",
+    "vite-tsconfig-paths": "^4.3.2",
+    "vitest-browser-react": "0.0.4"
+  }
+}
