@@ -1,4 +1,4 @@
-import PublicRoutes from '@/routes/publicRoutes'
+import PublicRoutes from '@/routes/PublicRoutes'
 import { BrowserRouter } from 'react-router'
 
 const App = () => {
