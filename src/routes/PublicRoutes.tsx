@@ -1,4 +1,5 @@
 import Loader from '@/components/Loader'
+import { TasksProvider } from '@/contexts/TasksContext'
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import { useNavigate } from 'react-router'
@@ -17,7 +18,14 @@ const PublicRoutes = () => {
           path="/"
           element={<RootPage onNavigate={() => handleNavigate('/tasks')} />}
         />
-        <Route path="tasks" element={<TasksPage />} />
+        <Route
+          path="tasks"
+          element={
+            <TasksProvider>
+              <TasksPage />
+            </TasksProvider>
+          }
+        />
       </Routes>
     </Suspense>
   )

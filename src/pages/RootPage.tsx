@@ -2,13 +2,13 @@ import WelcomeLottie from '@/components/WelcomeLottie'
 import { CornerDownRight } from 'lucide-react'
 import React from 'react'
 
-type RootPageProps = {
+interface RootPageProps {
   onNavigate: () => void | Promise<void>
 }
 
 const RootPage = ({ onNavigate }: RootPageProps) => {
   return (
-    <article className="h-screen w-screen flex-start mt-15 max-sm:mt-2.5 flex-col gap-3.75 p-7.5">
+    <main className="h-screen w-screen flex-start mt-15 max-sm:mt-2.5 flex-col gap-3.75 p-7.5">
       <WelcomeLottie />
       <h1 className="text-3xl font-bold text-center text-primary-700 leading-9">
         👋🏼 Hello, Welcome to the best To-Do List ever!
@@ -20,7 +20,7 @@ const RootPage = ({ onNavigate }: RootPageProps) => {
         <CornerDownRight className="w-5 h-5" />
         <p>Try it!</p>
       </button>
-    </article>
+    </main>
   )
 }
 

@@ -8,7 +8,7 @@ export default {
         inter: ['Inter', 'sans-serif']
       },
       boxShadow: {
-        custom: '0px 4px 4px rgba(0, 0, 0, 0.25)'
+        custom: '0px 4px 6px rgba(0, 0, 0, 0.1)'
       },
       spacing: {
         2.5: '10px',
@@ -19,6 +19,7 @@ export default {
       borderRadius: {
         2.5: '10px',
         3.75: '15px',
+        5: '20px',
         7.5: '30px'
       },
       colors: {
