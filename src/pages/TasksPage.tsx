@@ -1,9 +1,11 @@
 import CheckIcon from '@/assets/icons/CheckIcon'
-import AddTaskInput from '@/components/AddTaskInput'
-import TasksContent from '@/components/TasksContent'
+import AddTaskInput from '@/components/AddTaskInput/AddTaskInput'
+import TasksContent from '@/components/TasksContent/TasksContent'
+import { useTasks } from '@/contexts/TasksContext'
 import React from 'react'
 
 const TasksPage = () => {
+  const { addTask } = useTasks()
   return (
     <main className="h-screen w-screen flex-center">
       <article
@@ -16,7 +18,7 @@ const TasksPage = () => {
         </header>
         <section className="bg-white flex flex-1 flex-col gap-7.5 p-7.5 self-stretch md:rounded-b-5 overflow-y-auto">
           <div>
-            <AddTaskInput />
+            <AddTaskInput onAddTask={addTask} />
           </div>
           <div>
             <TasksContent />

@@ -8,10 +8,10 @@ export default defineConfig({
   //@ts-ignore
   test: {
     browser: {
-      enabled: true,
-      name: 'chromium',
+      include: ['**/spec.{ts,tsx}'],
       provider: 'playwright',
-      include: ['**/spec.{ts,tsx}']
+      enabled: true,
+      name: 'chromium'
     }
   }
 })

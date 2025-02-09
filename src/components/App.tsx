@@ -4,7 +4,9 @@ import { BrowserRouter } from 'react-router'
 const App = () => {
   return (
     <BrowserRouter>
-      <PublicRoutes />
+      <div data-testid="app-container">
+        <PublicRoutes />
+      </div>
     </BrowserRouter>
   )
 }

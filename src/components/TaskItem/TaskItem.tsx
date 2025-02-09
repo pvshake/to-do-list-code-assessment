@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react'
+import React, { useState } from 'react'
 import BoxCheckedIcon from '@/assets/icons/BoxCheckedIcon'
 import { useTasks } from '@/contexts/TasksContext'
 import { CalendarX, CornerDownRight, Pencil, Trash2 } from 'lucide-react'
 import { withMask } from 'use-mask-input'
-import formatter, { unformat } from '@/utils/formatter'
+import { unformat } from '@/utils/formatter'
 
 interface TaskItemProps {
   taskItem: Models.TaskItem
@@ -61,6 +61,7 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
 
   return (
     <li
+      data-testid="task-item"
       className={`relative list-none flex-start flex-1 gap-3.75 py-3.75 border-b border-primary-300 ${
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
@@ -75,6 +76,7 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
     >
       <div className="relative w-7.5 h-7.5">
         <input
+          data-testid="task-checkbox"
           className="absolute appearance-none peer w-7.5 h-7.5 shrink-0 border-2 border-primary-600 rounded-2.5 flex-center transition-colors checked:bg-primary-600 checked:border-primary-600 cursor-pointer"
           type="checkbox"
           checked={taskItem.checked}
@@ -86,6 +88,7 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
       </div>
       {isEditing ? (
         <input
+          data-testid="task-edit-input"
           className="w-full border-none outline-none text-primary-700"
           type="text"
           value={newDescription}
@@ -100,14 +103,15 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
       ) : (
         <div className="flex flex-col">
           <p
-            className={`cursor-text
-            ${taskItem.checked ? 'text-item-checked' : 'text-item-unchecked'}
-          `}
+            data-testid="task-description"
+            className={`cursor-text ${
+              taskItem.checked ? 'text-item-checked' : 'text-item-unchecked'
+            }`}
             onClick={() => setIsEditing(true)}
           >
             {taskItem.description}
           </p>
-          <p className="due-date-text">
+          <p data-testid="task-due-date" className="due-date-text">
             {taskItem.dueDate && taskItem.dueDate.length === 8
               ? taskItem.dueDate.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3')
               : ''}
@@ -118,6 +122,7 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
         {isEditingDueDate ? (
           <>
             <input
+              data-testid="task-due-date-input"
               className="due-date-input relative"
               type="text"
               placeholder="Data de vencimento"
@@ -142,23 +147,27 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
           </>
         ) : (
           <CalendarX
+            data-testid="task-edit-due-date-button"
             className="w-5 h-5 text-primary-600 cursor-pointer transition-transform hover:scale-110"
             onClick={() => setIsEditingDueDate(true)}
           />
         )}
         {!isEditing && (
           <Pencil
+            data-testid="task-edit-button"
             className="w-5 h-5 text-primary-600 cursor-pointer transition-transform hover:scale-110"
             onClick={() => setIsEditing(true)}
           />
         )}
         {isEditing && (
           <CornerDownRight
+            data-testid="task-save-edit-button"
             className="w-5 h-5 text-primary-600 cursor-pointer transition-transform hover:scale-110"
             onClick={() => setIsEditing(false)}
           />
         )}
         <Trash2
+          data-testid="task-delete-button"
           className="w-5 h-5 text-red-500 cursor-pointer transition-transform hover:scale-110"
           onClick={handleDeleteTask}
         />

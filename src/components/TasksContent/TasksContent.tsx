@@ -1,9 +1,9 @@
 import React from 'react'
-import TaskItem from './TaskItem'
-import EmptyResult from './EmptyResult'
 import { useTasks } from '@/contexts/TasksContext'
 import { useWindowSize } from 'react-use'
 import ReactConfetti from 'react-confetti'
+import EmptyResult from '../EmptyResult/EmptyResult'
+import TaskItem from '../TaskItem/TaskItem'
 
 const TasksContent = () => {
   const { tasks } = useTasks()
@@ -17,6 +17,7 @@ const TasksContent = () => {
   if (pendingTasks.length === 0 && completedTasks.length === 0) {
     return (
       <EmptyResult
+        data-testid="empty-result"
         message="Nada por aqui... Adicione uma nova tarefa!"
         emoji="📝"
         isFullScreen
@@ -25,9 +26,13 @@ const TasksContent = () => {
   }
 
   return (
-    <div className="flex flex-col self-stretch gap-7.5">
+    <div
+      className="flex flex-col self-stretch gap-7.5"
+      data-testid="tasks-content"
+    >
       {allTasksCompleted && (
         <ReactConfetti
+          data-testid="confetti"
           gravity={0.9}
           width={width}
           height={height}
@@ -38,27 +43,43 @@ const TasksContent = () => {
         />
       )}
 
-      <div>
+      <div data-testid="pending-tasks">
         <h5 className="heading-secondary">Para fazer</h5>
         <ul className="flex flex-col self-stretch">
           {pendingTasks.length > 0 ? (
             pendingTasks.map((task) => (
-              <TaskItem key={task.id} taskItem={task} />
+              <TaskItem
+                key={task.id}
+                taskItem={task}
+                data-testid="task-item-pending"
+              />
             ))
           ) : (
-            <EmptyResult message="Nenhuma tarefa pendente" emoji="☕" />
+            <EmptyResult
+              data-testid="empty-pending"
+              message="Nenhuma tarefa pendente"
+              emoji="☕"
+            />
           )}
         </ul>
       </div>
-      <div>
+      <div data-testid="completed-tasks">
         <h5 className="heading-secondary">Concluído</h5>
         <ul className="flex flex-col self-stretch">
           {completedTasks.length > 0 ? (
             completedTasks.map((task) => (
-              <TaskItem key={task.id} taskItem={task} />
+              <TaskItem
+                key={task.id}
+                taskItem={task}
+                data-testid="task-item-completed"
+              />
             ))
           ) : (
-            <EmptyResult message="Nada concluído ainda" emoji="🚀" />
+            <EmptyResult
+              data-testid="empty-completed"
+              message="Nada concluído ainda"
+              emoji="🚀"
+            />
           )}
         </ul>
       </div>

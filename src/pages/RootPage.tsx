@@ -1,4 +1,4 @@
-import WelcomeLottie from '@/components/WelcomeLottie'
+import WelcomeLottie from '@/components/WelcomeLottie/WelcomeLottie'
 import { CornerDownRight } from 'lucide-react'
 import React from 'react'
 

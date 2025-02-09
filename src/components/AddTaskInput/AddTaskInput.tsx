@@ -1,22 +1,25 @@
-import { useTasks } from '@/contexts/TasksContext'
 import React, { useMemo, useState } from 'react'
 import { useWindowSize } from 'react-use'
 
-const AddTaskInput = () => {
-  const { addTask } = useTasks()
+interface AddTaskInputProps {
+  onAddTask: (description: string) => void
+}
+
+const AddTaskInput = ({ onAddTask }: AddTaskInputProps) => {
   const { width } = useWindowSize()
   const collapsed = useMemo(() => width < 768, [width])
   const [inputValue, setInputValue] = useState<string>('')
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && inputValue.trim() !== '') {
-      addTask(inputValue)
+      onAddTask(inputValue)
       setInputValue('')
     }
   }
 
   return (
     <input
+      data-testid="add-task-input"
       className="add-task-input"
       type="text"
       placeholder={`+ Adicionar uma tarefa a lista. ${

@@ -1,4 +1,4 @@
-import Loader from '@/components/Loader'
+import Loader from '@/components/Loader/Loader'
 import { TasksProvider } from '@/contexts/TasksContext'
 import React, { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
