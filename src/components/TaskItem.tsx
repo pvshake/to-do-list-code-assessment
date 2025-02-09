@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import BoxCheckedIcon from '@/assets/icons/BoxCheckedIcon'
 import { useTasks } from '@/contexts/TasksContext'
-import { CornerDownRight, Pencil, Trash2 } from 'lucide-react'
+import { CalendarX, CornerDownRight, Pencil, Trash2 } from 'lucide-react'
+import { withMask } from 'use-mask-input'
+import formatter, { unformat } from '@/utils/formatter'
 
 interface TaskItemProps {
   taskItem: Models.TaskItem
@@ -10,10 +12,12 @@ interface TaskItemProps {
 const TaskItem = ({ taskItem }: TaskItemProps) => {
   const { editTask, removeTask, reorderTasks } = useTasks()
   const [isEditing, setIsEditing] = useState<boolean>(false)
+  const [isEditingDueDate, setIsEditingDueDate] = useState<boolean>(false)
   const [isDragging, setIsDragging] = useState<boolean>(false)
   const [newDescription, setNewDescription] = useState<string>(
     taskItem.description
   )
+  const [dueDate, setDueDate] = useState<string | undefined>(taskItem.dueDate)
 
   const handleDragStart = (event: React.DragEvent<HTMLLIElement>) => {
     setIsDragging(false)
@@ -34,8 +38,14 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
     editTask(taskItem.id, { checked } as any)
   }
 
-  const handleDescriptionChange = (description: string) => {
+  const handleDescriptionChange = () => {
     editTask(taskItem.id, { description: newDescription } as any)
+  }
+
+  const handleDueDateChange = (dueDate: string) => {
+    editTask(taskItem.id, {
+      dueDate: unformat(dueDate)
+    } as any)
   }
 
   const handleDeleteTask = () => {
@@ -44,7 +54,7 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter' && newDescription.trim() !== '') {
-      handleDescriptionChange(newDescription.trim())
+      handleDescriptionChange()
       setIsEditing(false)
     }
   }
@@ -82,22 +92,60 @@ const TaskItem = ({ taskItem }: TaskItemProps) => {
           onChange={(e) => setNewDescription(e.target.value)}
           onBlur={() => {
             setIsEditing(false)
-            handleDescriptionChange(newDescription)
+            handleDescriptionChange()
           }}
           autoFocus
           onKeyDown={handleKeyDown}
         />
       ) : (
-        <p
-          className={`cursor-text
+        <div className="flex flex-col">
+          <p
+            className={`cursor-text
             ${taskItem.checked ? 'text-item-checked' : 'text-item-unchecked'}
           `}
-          onClick={() => setIsEditing(true)}
-        >
-          {taskItem.description}
-        </p>
+            onClick={() => setIsEditing(true)}
+          >
+            {taskItem.description}
+          </p>
+          <p className="due-date-text">
+            {taskItem.dueDate && taskItem.dueDate.length === 8
+              ? taskItem.dueDate.replace(/(\d{2})(\d{2})(\d{4})/, '$1/$2/$3')
+              : ''}
+          </p>
+        </div>
       )}
       <div className="absolute right-0 flex-center gap-2.5">
+        {isEditingDueDate ? (
+          <>
+            <input
+              className="due-date-input relative"
+              type="text"
+              placeholder="Data de vencimento"
+              ref={withMask('99/99/9999')}
+              value={dueDate}
+              onChange={(e) => {
+                if (e.target.value.length <= 10) setDueDate(e.target.value)
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  handleDueDateChange(dueDate!)
+                  setIsEditingDueDate(false)
+                }
+              }}
+              onBlur={() => {
+                setIsEditingDueDate(false)
+                handleDueDateChange(dueDate!)
+              }}
+              autoFocus
+            />
+            <CornerDownRight className="w-5 h-5 text-primary-600 absolute right-16" />
+          </>
+        ) : (
+          <CalendarX
+            className="w-5 h-5 text-primary-600 cursor-pointer transition-transform hover:scale-110"
+            onClick={() => setIsEditingDueDate(true)}
+          />
+        )}
         {!isEditing && (
           <Pencil
             className="w-5 h-5 text-primary-600 cursor-pointer transition-transform hover:scale-110"

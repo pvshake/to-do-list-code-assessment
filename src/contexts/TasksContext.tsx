@@ -50,17 +50,20 @@ export const TasksProvider = ({ children }: { children: React.ReactNode }) => {
       id: string,
       {
         checked,
-        description
+        description,
+        dueDate
       }: {
         checked?: boolean
         description?: string
+        dueDate?: string
       }
     ) => {
       try {
         setIsLoading(true)
         const tasks = await patchTask(id, {
           checked,
-          description
+          description,
+          dueDate: dueDate || ''
         })
         setTasks(tasks as Models.TaskItem[])
       } catch (error) {

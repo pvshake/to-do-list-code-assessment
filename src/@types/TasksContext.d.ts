@@ -1,6 +1,6 @@
 namespace Context {
   interface TasksContext {
-    tasks: TaskItem[]
+    tasks: Models.TaskItem[]
     editTask: (
       id: string,
       {

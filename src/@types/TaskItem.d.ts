@@ -4,5 +4,6 @@ namespace Models {
     description: string
     checked: boolean
     order: number
+    dueDate: string
   }
 }

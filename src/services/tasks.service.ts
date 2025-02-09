@@ -15,32 +15,40 @@ export function useGetAllTasks() {
 }
 
 export function usePostTask() {
-  return useCallback(async (description: string) => {
-    return new Promise<Models.TaskItem[]>((resolve) => {
-      setTimeout(() => {
+  return useCallback(
+    async (description: string): Promise<Models.TaskItem[]> => {
+      return new Promise((resolve) => {
         const storedTasks = localStorage.getItem(TASKS_STORAGE_KEY)
-        const tasksList = storedTasks ? JSON.parse(storedTasks) : []
+        const tasksList = (
+          storedTasks ? JSON.parse(storedTasks) : []
+        ) as Models.TaskItem[]
 
-        const newTask = {
+        const newTask: Models.TaskItem = {
           id: crypto.randomUUID(),
           order: tasksList.length,
           description,
-          checked: false
+          checked: false,
+          dueDate: ''
         }
 
         tasksList.push(newTask)
         localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasksList))
         resolve(tasksList)
-      }, 0)
-    })
-  }, [])
+      })
+    },
+    []
+  )
 }
 
 export function usePatchTask() {
   return useCallback(
     async (
       id: string,
-      { checked, description }: { checked?: boolean; description?: string }
+      {
+        checked,
+        description,
+        dueDate
+      }: { checked?: boolean; description?: string; dueDate?: string }
     ) => {
       return new Promise<Partial<Models.TaskItem>>((resolve) => {
         const storedTasks = localStorage.getItem(TASKS_STORAGE_KEY)
@@ -56,6 +64,9 @@ export function usePatchTask() {
         }
         if (description) {
           tasksList[taskIndex].description = description
+        }
+        if (dueDate) {
+          tasksList[taskIndex].dueDate = dueDate
         }
 
         localStorage.setItem(TASKS_STORAGE_KEY, JSON.stringify(tasksList))
